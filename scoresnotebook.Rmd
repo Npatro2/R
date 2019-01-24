@@ -1,0 +1,188 @@
+
+```{r}
+#Importing the libraries and renaming the columns so that R can recognize them
+
+library(ggplot2)
+library(tidyverse)
+
+
+colnames(StudentsPerformance)[colnames(StudentsPerformance) == "race/ethnicity"] <- "race.ethnicity"
+colnames(StudentsPerformance)[colnames(StudentsPerformance) == "parental level of education"] <- "parental.level.of.education"
+colnames(StudentsPerformance)[colnames(StudentsPerformance) == "test preparation course"] <- "test.preparation.course"
+colnames(StudentsPerformance)[colnames(StudentsPerformance) == "math score"] <- "math.score"
+colnames(StudentsPerformance)[colnames(StudentsPerformance) == "reading score"] <- "reading.score"
+colnames(StudentsPerformance)[colnames(StudentsPerformance) == "writing score"] <- "writing.score"
+```
+
+```{r}
+math.test = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = parental.level.of.education, y = math.score, fill = parental.level.of.education)) +
+  labs(x = "Parents level of education", y = "Math Scores")
+
+reading.test = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = parental.level.of.education, y = reading.score, fill = parental.level.of.education)) +
+  labs(x = "Parents level of education", y = "Reading Scores")
+
+writing.test = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = parental.level.of.education, y = writing.score, fill = parental.level.of.education)) +
+  labs(x = "Parents level of education", y = "Writing Scores")
+
+math.test
+reading.test
+writing.test
+```
+For the math and reading exams, the level of the parents' education did not significantly influence the scores. However, for the writing exam, the students whose parents' level was a master's degree preformed significantly better than those whose parents level was high school.
+
+
+```{r}
+#Defining the data boxplots as variables so that they can be presented on the same 
+
+math.race = ggplot(data = StudentsPerformance) + 
+  geom_boxplot(mapping = aes(x = race.ethnicity, y = math.score, fill = race.ethnicity)) +
+  labs(x = "Race/Ethnicity", y = "Math Scores")
+
+
+reading.race = ggplot(data = StudentsPerformance) + 
+  geom_boxplot(mapping = aes(x = race.ethnicity, y = reading.score, fill = race.ethnicity)) +
+  labs(x = "Race/Ethnicity", y = "Reading Scores")
+  
+
+writing.race = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = race.ethnicity, y = writing.score, fill = race.ethnicity)) +
+  labs(x = "Race/Ethnicity", y = "Writing Scores")
+
+math.race
+reading.race
+writing.race
+
+#grid.newpage() 
+#pushViewport(viewport(layout = grid.layout(2, 2)))
+#print(math.race, vp = viewport(layout.pos.row = 1, layout.pos.col = 1:2))
+#print(reading.race, vp = viewport(layout.pos.row = 2, layout.pos.col = 1))
+#print(writing.race, vp = viewport(layout.pos.row = 2, layout.pos.col = 2, #width=0.3, height=0.3, x=0.8, y=0.8))
+```
+It seems that all races performed statistically the same on all three of the exams.
+
+
+```{r}
+math.gender = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = gender, y = math.score, fill = gender)) +
+  labs(x = "Gender", y = "Math Scores")
+
+reading.gender = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = gender, y = reading.score, fill = gender)) +
+  labs(x = "Gender", y = "Math Scores")
+
+writing.gender = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = gender, y = reading.score, fill = gender)) +
+  labs(x = "Gender", y = "Writing Scores")
+
+math.gender
+reading.gender
+writing.gender
+```
+Both genders performed the same on all three of the exams
+
+```{r}
+math.prep = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = test.preparation.course, y = math.score, fill = test.preparation.course)) +
+  labs(x = "Test Preparation Course", y = "Math Scores")
+
+reading.prep = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = test.preparation.course, y = reading.score, fill = test.preparation.course)) +
+  labs(x = "Test Preparation Course", y = "Reading Scores")
+
+writing.prep = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = test.preparation.course, y = writing.score, fill = test.preparation.course)) +
+  labs(x = "Test Preparation Course", y = "Writing Scores")
+
+math.prep
+reading.prep
+writing.prep
+```
+It appears as if only the Writing Scores were really influnced by whether or not the students have taken the Test Preparation Course
+
+
+
+```{r}
+math.lunch = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = lunch, y = math.score, fill = lunch)) +
+  labs(x = "Lunch", y = "Math Scores")
+
+reading.lunch = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = lunch, y = reading.score, fill = lunch)) +
+  labs(x = "Lunch", y = "Reading Scores")
+
+writing.lunch = ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = lunch, y = writing.score, fill = lunch)) +
+  labs(x = "Lunch", y = "Writing Scores")
+
+math.lunch
+reading.lunch
+writing.lunch
+```
+It appears as if the lunch program the students are in made no statistical difference in the score in any of the three fields. 
+
+
+Part II: A Closer Look
+
+
+```{r}
+ggplot(data = StudentsPerformance) + 
+  geom_boxplot(mapping = aes(x = test.preparation.course, y = math.score,fill=test.preparation.course))  +
+  facet_grid(gender~race.ethnicity)
+
+ggplot(data = StudentsPerformance) + 
+  geom_boxplot(mapping = aes(x = test.preparation.course, y = reading.score,fill=test.preparation.course))  +
+  facet_grid(gender~race.ethnicity)
+
+
+ggplot(data = StudentsPerformance) + 
+  geom_boxplot(mapping = aes(x = test.preparation.course, y =writing.score,fill=test.preparation.course))  +
+  facet_grid(gender~race.ethnicity)
+
+
+```
+Upon closer inspection, it seems that the Test Preparation Course had the most significant influence on the scores in females in Group A for the Math Test.
+
+For the Reading Test, the most significant influence the preparation course has is on females in Group A, and males in Group B
+
+The Writing Exam seems to the the exam where whether or not the students completed the preparation course has the most significance, with the differences between the averages among females in Groups A, C, and E; and among males in Groups A,B, and D. 
+
+```{r}
+ggplot(data = StudentsPerformance) + 
+  geom_boxplot(mapping = aes(x = parental.level.of.education, y = math.score,fill=parental.level.of.education))  +
+  facet_grid(gender~race.ethnicity)
+
+ggplot(data = StudentsPerformance) + 
+  geom_boxplot(mapping = aes(x = parental.level.of.education, y = reading.score,fill=parental.level.of.education))  +
+  facet_grid(gender~race.ethnicity)
+
+
+ggplot(data = StudentsPerformance) + 
+  geom_boxplot(mapping = aes(x = parental.level.of.education, y = writing.score,fill=parental.level.of.education))  +
+  facet_grid(gender~race.ethnicity)
+```
+
+
+
+
+```{r}
+ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = lunch, y = math.score, fill = lunch)) +
+  facet_grid(gender~race.ethnicity)
+
+ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = lunch, y = reading.score, fill = lunch)) +
+  facet_grid(gender~race.ethnicity)
+
+ggplot(data = StudentsPerformance) +
+  geom_boxplot(mapping = aes(x = lunch, y = writing.score, fill = lunch)) +
+  facet_grid(gender~race.ethnicity)
+
+```
+For the Math exam, for the females, it seems that the type of lunch programs the students were in were influential for females in Groups A, C, and E. For the males, it seems that the same can be said for Groups B, and C.
+
+In the Reading Exam, for the females, it can be said that the lunch programs the students were significantly influenced the scores in Groups A, and E. For the males, it can be said that the same effects can be seen in Groups B, and C.
+
+In the Writing Exam, for the females, lunch had a statistically significant influence in the scores of Groups A, C, and E. For the Males, the same can only be seen in Group C.
