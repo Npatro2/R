@@ -1,5 +1,9 @@
 
 ```{r}
+#Dataset source: https://www.kaggle.com/spscientist/students-performance-in-exams
+
+#libraries used: ggplot, tidyverse
+
 #Importing the libraries and renaming the columns so that R can recognize them
 
 library(ggplot2)
